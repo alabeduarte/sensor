@@ -1,0 +1,16 @@
+{
+  "name": "pragma-brewery",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "quik"
+  },
+  "author": "Alabe Duarte",
+  "devDependencies": {
+    "quik": "^1.0.1"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
