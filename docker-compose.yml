@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+  client:
+    image: node:9.3.0-alpine
+    working_dir: /home/client
+    command: npm start
+    volumes:
+      - ./client:/home/client
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=$NODE_ENV
