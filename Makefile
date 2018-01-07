@@ -17,7 +17,14 @@ to_remove += $(server)/node_modules
 dev: $(client)/node_modules $(server)/node_modules
 	docker-compose up --build
 
-.PHONY: test
-test: $(server)/node_modules
+.PHONY: lint
+lint: $(server)/node_modules
 	docker-compose run --rm server yarn lint
+
+.PHONY: format
+format: $(server)/node_modules
+	docker-compose run --rm server yarn format
+
+.PHONY: test
+test: $(server)/node_modules lint
 	docker-compose run --rm server yarn test
