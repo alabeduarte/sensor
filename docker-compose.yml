@@ -11,3 +11,15 @@ services:
       - '3000:3000'
     environment:
       - NODE_ENV=$NODE_ENV
+
+  server:
+    image: node:9.3.0-alpine
+    working_dir: /home/server
+    command: npm start
+    volumes:
+      - ./server:/home/server
+    ports:
+      - '8080:8080'
+    environment:
+      - NODE_ENV=$NODE_ENV
+      - PORT=$SERVER_PORT

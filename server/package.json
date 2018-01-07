@@ -1,0 +1,17 @@
+{
+  "name": "thermometer-sensor",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "jest"
+  },
+  "author": "Alabe Duarte",
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "jest": "^22.0.4",
+    "supertest": "^3.0.0"
+  }
+}
