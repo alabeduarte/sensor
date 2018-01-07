@@ -19,4 +19,5 @@ dev: $(client)/node_modules $(server)/node_modules
 
 .PHONY: test
 test: $(server)/node_modules
+	docker-compose run --rm server yarn lint
 	docker-compose run --rm server yarn test

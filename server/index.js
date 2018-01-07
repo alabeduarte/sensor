@@ -6,6 +6,4 @@ const Server = require('./web');
 
 app.use('/thermometer-sensor', new Server());
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-})
+app.listen(PORT, () => {});
