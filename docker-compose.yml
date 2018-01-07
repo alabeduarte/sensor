@@ -4,7 +4,7 @@ services:
   client:
     image: node:9.3.0-alpine
     working_dir: /home/client
-    command: npm start
+    command: yarn start
     volumes:
       - ./client:/home/client
     ports:
@@ -15,7 +15,7 @@ services:
   server:
     image: node:9.3.0-alpine
     working_dir: /home/server
-    command: npm start
+    command: yarn start
     volumes:
       - ./server:/home/server
     ports:

@@ -4,11 +4,11 @@ server := server
 # ---
 
 $(client)/node_modules: $(client)/package.json
-	docker-compose run --rm client sh -c 'npm install && touch node_modules'
+	docker-compose run --rm client sh -c 'yarn install && touch node_modules'
 to_remove += $(client)/node_modules
 
 $(server)/node_modules: $(server)/package.json
-	docker-compose run --rm server sh -c 'npm install && touch node_modules'
+	docker-compose run --rm server sh -c 'yarn install && touch node_modules'
 to_remove += $(server)/node_modules
 
 # ---
@@ -19,4 +19,4 @@ dev: $(client)/node_modules $(server)/node_modules
 
 .PHONY: test
 test: $(server)/node_modules
-	docker-compose run --rm server npm test
+	docker-compose run --rm server yarn test
