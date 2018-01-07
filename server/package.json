@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node index",
     "test": "jest",
+    "test:watch": "yarn test --watchAll",
     "lint": "eslint .",
     "format": "prettier-eslint \"**/*.js\" --write"
   },
