@@ -6,12 +6,8 @@ module.exports = function EventStore({ events = [], bus = new EventBus() }) {
   return {
     all: () => storedEvents,
     subscribe: bus.subscribe,
-    async store(eventName, { data, clock = new Date() }) {
-      const event = {
-        name: eventName,
-        data,
-        timestamp: clock.getTime()
-      };
+    async store(eventName, { data }) {
+      const event = { name: eventName, data };
 
       storedEvents.push(event);
       bus.publish(eventName, event);

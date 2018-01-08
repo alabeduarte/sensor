@@ -3,7 +3,6 @@ const EventBus = require('./event-bus');
 
 describe('EventStore', () => {
   let eventStore, bus;
-  const clock = new Date();
 
   beforeEach(() => {
     bus = new EventBus();
@@ -11,66 +10,45 @@ describe('EventStore', () => {
   });
 
   it('stores an event with timestamp', async () => {
-    await eventStore.store('SOMETHING_HAPPENED', { clock });
+    await eventStore.store('SOMETHING_HAPPENED', {});
 
-    expect(eventStore.all()).toEqual([
-      {
-        timestamp: clock.getTime(),
-        name: 'SOMETHING_HAPPENED'
-      }
-    ]);
+    expect(eventStore.all()).toEqual([{ name: 'SOMETHING_HAPPENED' }]);
   });
 
   it('stores an event with some data', async () => {
     const data = { foo: 'bar' };
 
-    await eventStore.store('SOMETHING_HAPPENED', { data, clock });
+    await eventStore.store('SOMETHING_HAPPENED', { data });
 
-    expect(eventStore.all()).toEqual([
-      {
-        timestamp: clock.getTime(),
-        name: 'SOMETHING_HAPPENED',
-        data
-      }
-    ]);
+    expect(eventStore.all()).toEqual([{ name: 'SOMETHING_HAPPENED', data }]);
   });
 
   it('adds new event on top of already existent events', async () => {
-    const someTimeOnThePast = new Date(clock - 1);
-
     eventStore = new EventStore({
       bus,
       events: [
         {
-          name: 'SOMETHING_HAPPENED',
-          timestamp: someTimeOnThePast.getTime()
+          name: 'SOMETHING_HAPPENED'
         }
       ]
     });
 
-    await eventStore.store('SOMETHING_ELSE_HAPPENED', { clock });
+    await eventStore.store('SOMETHING_ELSE_HAPPENED', {});
 
     expect(eventStore.all()).toEqual([
-      {
-        timestamp: someTimeOnThePast.getTime(),
-        name: 'SOMETHING_HAPPENED'
-      },
-      {
-        timestamp: clock.getTime(),
-        name: 'SOMETHING_ELSE_HAPPENED'
-      }
+      { name: 'SOMETHING_HAPPENED' },
+      { name: 'SOMETHING_ELSE_HAPPENED' }
     ]);
   });
 
   it('publishes stored event', async done => {
     eventStore.subscribe('SOMETHING_HAPPENED', event => {
       expect(event).toEqual({
-        name: 'SOMETHING_HAPPENED',
-        timestamp: clock.getTime()
+        name: 'SOMETHING_HAPPENED'
       });
       done();
     });
 
-    await eventStore.store('SOMETHING_HAPPENED', { clock });
+    await eventStore.store('SOMETHING_HAPPENED', {});
   });
 });
