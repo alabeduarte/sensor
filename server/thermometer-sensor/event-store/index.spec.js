@@ -1,5 +1,5 @@
 const EventStore = require('./index');
-const EventBus = require('../event-bus');
+const EventBus = require('./event-bus');
 
 describe('EventStore', () => {
   let eventStore, bus;

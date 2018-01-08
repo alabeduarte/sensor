@@ -1,4 +1,6 @@
-module.exports = function EventStore({ events = [], bus }) {
+const EventBus = require('./event-bus');
+
+module.exports = function EventStore({ events = [], bus = new EventBus() }) {
   const storedEvents = events;
 
   return {
