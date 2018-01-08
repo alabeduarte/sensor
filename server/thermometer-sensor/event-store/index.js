@@ -10,10 +10,10 @@ module.exports = function EventStore({ events = [] }) {
     subscribe: (eventName, handler) => eventEmitter.on(eventName, handler),
     all: () => storedEvents,
     async store({ event, clock = new Date() }) {
-      const data = assign(event, { timestamp: clock.getTime() });
+      const eventWithTimestamp = assign(event, { timestamp: clock.getTime() });
 
-      storedEvents.push(data);
-      eventEmitter.emit(event.name, data);
+      storedEvents.push(eventWithTimestamp);
+      eventEmitter.emit(event.name, eventWithTimestamp);
     }
   };
 };

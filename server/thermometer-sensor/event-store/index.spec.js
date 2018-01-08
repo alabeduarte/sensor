@@ -21,6 +21,26 @@ describe('EventStore', () => {
     ]);
   });
 
+  it('stores an event with some data', async () => {
+    const eventStore = new EventStore({});
+
+    await eventStore.store({
+      event: {
+        name: 'SOMETHING_HAPPENED',
+        data: { foo: 'bar' }
+      },
+      clock: now
+    });
+
+    expect(eventStore.all()).toEqual([
+      {
+        timestamp: now.getTime(),
+        name: 'SOMETHING_HAPPENED',
+        data: { foo: 'bar' }
+      }
+    ]);
+  });
+
   it('adds new event on top of already existent events', async () => {
     const someTimeOnThePast = new Date(now - 1);
 
