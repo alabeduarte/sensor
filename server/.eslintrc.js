@@ -3,7 +3,8 @@ module.exports = {
   "env": {
     "es6": true,
     "node": true,
-    "jest/globals": true
+    "jest/globals": true,
+    "jasmine": true
   },
   "extends": "eslint:recommended",
   "parserOptions": {
