@@ -1,11 +1,16 @@
 const EventStore = require('./index');
+const EventBus = require('../event-bus')
 
 describe('EventStore', () => {
+  let eventStore, bus;
   const now = new Date();
 
-  it('stores an event with timestamp', async () => {
-    const eventStore = new EventStore({});
+  beforeEach(() => {
+    bus = new EventBus();
+    eventStore = new EventStore({ bus });
+  });
 
+  it('stores an event with timestamp', async () => {
     await eventStore.store({
       event: {
         name: 'SOMETHING_HAPPENED'
@@ -22,8 +27,6 @@ describe('EventStore', () => {
   });
 
   it('stores an event with some data', async () => {
-    const eventStore = new EventStore({});
-
     await eventStore.store({
       event: {
         name: 'SOMETHING_HAPPENED',
@@ -44,7 +47,8 @@ describe('EventStore', () => {
   it('adds new event on top of already existent events', async () => {
     const someTimeOnThePast = new Date(now - 1);
 
-    const eventStore = new EventStore({
+    eventStore = new EventStore({
+      bus,
       events: [
         {
           name: 'SOMETHING_HAPPENED',
@@ -73,8 +77,6 @@ describe('EventStore', () => {
   });
 
   it('publishes stored event', async done => {
-    const eventStore = new EventStore({});
-
     eventStore.subscribe('SOMETHING_HAPPENED', event => {
       expect(event).toEqual({
         name: 'SOMETHING_HAPPENED',
