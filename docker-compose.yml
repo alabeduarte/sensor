@@ -7,6 +7,7 @@ services:
     command: yarn start
     volumes:
       - ./client:/home/client
+      - ./client/node_modules:/home/client/node_modules:delegated
     ports:
       - '3000:3000'
     environment:
@@ -18,6 +19,7 @@ services:
     command: yarn start
     volumes:
       - ./server:/home/server
+      - ./server/node_modules:/home/server/node_modules:delegated
     ports:
       - '8080:8080'
     environment:
