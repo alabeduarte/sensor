@@ -24,8 +24,7 @@ describe('ThermometerSensor', () => {
       }
     };
 
-    new ThermometerSensor({ eventStore, temperatureRangeDetector });
-
+    await new ThermometerSensor({ eventStore, temperatureRangeDetector });
     await eventStore.store('TEMPERATURE_HAS_CHANGED', { data });
 
     expect(

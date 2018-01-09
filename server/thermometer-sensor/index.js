@@ -2,10 +2,10 @@ module.exports = function ThermometerSensor({
   eventStore,
   temperatureRangeDetector
 }) {
-  eventStore.subscribe('TEMPERATURE_HAS_CHANGED', ({ data }) => {
+  eventStore.subscribe('TEMPERATURE_HAS_CHANGED', async ({ data }) => {
     const { currentTemperature, idealTemperatureRange } = data;
     const refrigerationNeeds = { currentTemperature, idealTemperatureRange };
 
-    temperatureRangeDetector.detectTemperatureInRange({ refrigerationNeeds });
+    await temperatureRangeDetector.detectTemperatureInRange({ refrigerationNeeds });
   });
 };
