@@ -1,54 +1,23 @@
 const OutOfRange = require('./out-of-range');
-const RefrigerationNeeds = require('../refrigeration-needs');
 
 describe('OutOfRange', () => {
-  const idealTemperatureRange = {
-    min: 4,
-    max: 6
-  };
-
-  it('returns false when point value is between range', () => {
-    const refrigerationNeeds = RefrigerationNeeds({
-      currentTemperature: 5,
-      idealTemperatureRange
-    });
-
-    expect(OutOfRange({ refrigerationNeeds })).toEqual(false);
+  it('returns false when value is inside the range', () => {
+    expect(OutOfRange({ from: 4, to: 6 })(5)).toEqual(false);
   });
 
-  it('returns false when point value is equal to the minimal value', () => {
-    const refrigerationNeeds = RefrigerationNeeds({
-      currentTemperature: 4,
-      idealTemperatureRange
-    });
-
-    expect(OutOfRange({ refrigerationNeeds })).toEqual(false);
+  it('returns false when value matches the lower boundary', () => {
+    expect(OutOfRange({ from: 4, to: 6 })(4)).toEqual(false);
   });
 
-  it('returns false when point value is equal to the maximum value', () => {
-    const refrigerationNeeds = RefrigerationNeeds({
-      currentTemperature: 6,
-      idealTemperatureRange
-    });
-
-    expect(OutOfRange({ refrigerationNeeds })).toEqual(false);
+  it('returns false when value matches the higher boundary', () => {
+    expect(OutOfRange({ from: 4, to: 6 })(6)).toEqual(false);
   });
 
-  it('returns true when point value is below the minimum', () => {
-    const refrigerationNeeds = RefrigerationNeeds({
-      currentTemperature: 3,
-      idealTemperatureRange
-    });
-
-    expect(OutOfRange({ refrigerationNeeds })).toEqual(true);
+  it('returns true when value is below the range', () => {
+    expect(OutOfRange({ from: 4, to: 6 })(3)).toEqual(true);
   });
 
-  it('returns true when point value is above the maximum', () => {
-    const refrigerationNeeds = RefrigerationNeeds({
-      currentTemperature: 7,
-      idealTemperatureRange
-    });
-
-    expect(OutOfRange({ refrigerationNeeds })).toEqual(true);
+  it('returns true when value is above the range', () => {
+    expect(OutOfRange({ from: 4, to: 6 })(3)).toEqual(true);
   });
 });

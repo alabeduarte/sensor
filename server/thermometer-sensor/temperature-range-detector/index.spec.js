@@ -3,20 +3,22 @@ const EventStore = require('../event-store');
 
 describe('TemperatureRangeDetector', () => {
   let detector, eventStore;
-  const refrigerationNeeds = { foo: 'bar' };
 
   beforeEach(() => {
     eventStore = new EventStore({});
   });
 
-  it('stores an event when temperature is detected as out of range', () => {
-    const OutOfRange = ({ refrigerationNeeds }) => {
-      expect(refrigerationNeeds).toBeDefined();
-      return true;
+  it('stores an event when temperature is detected as out of range', async () => {
+    const refrigerationNeeds = {
+      currentTemperature: 3,
+      idealTemperatureRange: {
+        min: 4,
+        max: 6
+      }
     };
 
-    detector = new TemperatureRangeDetector({ eventStore, OutOfRange });
-    detector.detectTemperatureInRange({ refrigerationNeeds });
+    detector = new TemperatureRangeDetector({ eventStore });
+    await detector.detectTemperatureInRange({ refrigerationNeeds });
 
     expect(eventStore.all()).toEqual([
       {
@@ -26,14 +28,17 @@ describe('TemperatureRangeDetector', () => {
     ]);
   });
 
-  it('stores an event when temperature is detected as in range', () => {
-    const OutOfRange = ({ refrigerationNeeds }) => {
-      expect(refrigerationNeeds).toBeDefined();
-      return false;
+  it('stores an event when temperature is detected as in range', async () => {
+    const refrigerationNeeds = {
+      currentTemperature: 5,
+      idealTemperatureRange: {
+        min: 4,
+        max: 6
+      }
     };
 
-    detector = new TemperatureRangeDetector({ eventStore, OutOfRange });
-    detector.detectTemperatureInRange({ refrigerationNeeds });
+    detector = new TemperatureRangeDetector({ eventStore });
+    await detector.detectTemperatureInRange({ refrigerationNeeds });
 
     expect(eventStore.all()).toEqual([
       {

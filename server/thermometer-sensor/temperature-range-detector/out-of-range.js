@@ -1,6 +1,3 @@
-module.exports = function OutOfRange({ refrigerationNeeds }) {
-  const { currentTemperature, idealTemperatureRange } = refrigerationNeeds;
-  const { min, max } = idealTemperatureRange;
-
-  return currentTemperature < min || currentTemperature > max;
+module.exports = ({ from, to }) => value => {
+  return value < from || value > to;
 };
