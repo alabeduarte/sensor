@@ -1,8 +1,16 @@
+const RefrigerationNeeds = require('./refrigeration-needs');
+
 module.exports = function ThermometerSensor({
   eventStore,
-  temperatureRangeChecker
+  temperatureRangeDetector
 }) {
   eventStore.subscribe('TEMPERATURE_HAS_CHANGED', ({ data }) => {
-    temperatureRangeChecker.check({ data });
+    const { currentTemperature, idealTemperatureRange } = data;
+    const refrigerationNeeds = RefrigerationNeeds({
+      currentTemperature,
+      idealTemperatureRange
+    });
+
+    temperatureRangeDetector.detectTemperatureInRange({ refrigerationNeeds });
   });
 };

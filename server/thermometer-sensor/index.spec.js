@@ -1,8 +1,9 @@
 const ThermometerSensor = require('./index');
+const RefrigerationNeeds = require('./refrigeration-needs');
 const EventStore = require('./event-store');
 
-function StubbedTemperatureRangeChecker() {
-  return { check: () => true };
+function StubbedTemperatureRangeDetector() {
+  return { detectTemperatureInRange: () => true };
 }
 
 describe('ThermometerSensor', () => {
@@ -12,15 +13,32 @@ describe('ThermometerSensor', () => {
     eventStore = new EventStore({});
   });
 
-  it('triggers temperature range checking when it changes', async () => {
-    const temperatureRangeChecker = new StubbedTemperatureRangeChecker();
-    spyOn(temperatureRangeChecker, 'check');
+  it('triggers temperature range detected when it changes', async () => {
+    const temperatureRangeDetector = new StubbedTemperatureRangeDetector();
+    spyOn(temperatureRangeDetector, 'detectTemperatureInRange');
 
-    const data = { foo: 'bar' };
-    new ThermometerSensor({ eventStore, temperatureRangeChecker });
+    const data = {
+      currentTemperature: 4,
+      idealTemperatureRange: {
+        min: 3,
+        max: 5
+      }
+    };
+
+    new ThermometerSensor({ eventStore, temperatureRangeDetector });
 
     await eventStore.store('TEMPERATURE_HAS_CHANGED', { data });
 
-    expect(temperatureRangeChecker.check).toHaveBeenCalledWith({ data });
+    expect(
+      temperatureRangeDetector.detectTemperatureInRange
+    ).toHaveBeenCalledWith({
+      refrigerationNeeds: RefrigerationNeeds({
+        currentTemperature: 4,
+        idealTemperatureRange: {
+          min: 3,
+          max: 5
+        }
+      })
+    });
   });
 });
