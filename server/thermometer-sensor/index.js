@@ -6,6 +6,8 @@ module.exports = function ThermometerSensor({
     const { currentTemperature, idealTemperatureRange } = data;
     const refrigerationNeeds = { currentTemperature, idealTemperatureRange };
 
-    await temperatureRangeDetector.detectTemperatureInRange({ refrigerationNeeds });
+    await temperatureRangeDetector.detectTemperatureInRange({
+      refrigerationNeeds
+    });
   });
 };
