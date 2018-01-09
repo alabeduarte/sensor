@@ -1,5 +1,4 @@
 const ThermometerSensor = require('./index');
-const RefrigerationNeeds = require('./refrigeration-needs');
 const EventStore = require('./event-store');
 
 function StubbedTemperatureRangeDetector() {
@@ -32,13 +31,13 @@ describe('ThermometerSensor', () => {
     expect(
       temperatureRangeDetector.detectTemperatureInRange
     ).toHaveBeenCalledWith({
-      refrigerationNeeds: RefrigerationNeeds({
+      refrigerationNeeds: {
         currentTemperature: 4,
         idealTemperatureRange: {
           min: 3,
           max: 5
         }
-      })
+      }
     });
   });
 });
