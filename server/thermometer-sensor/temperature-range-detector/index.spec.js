@@ -1,5 +1,5 @@
 const TemperatureRangeDetector = require('./index');
-const EventStore = require('../event-store');
+const EventStore = require('../../event-store');
 
 describe('TemperatureRangeDetector', () => {
   let detector, eventStore;

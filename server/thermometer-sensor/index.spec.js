@@ -1,5 +1,5 @@
 const ThermometerSensor = require('./index');
-const EventStore = require('./event-store');
+const EventStore = require('../event-store');
 
 function StubbedTemperatureRangeDetector() {
   return { detectTemperatureInRange: () => true };
