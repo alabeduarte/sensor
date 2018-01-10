@@ -4,8 +4,11 @@ const PORT = process.env.PORT || 8080;
 
 const logger = require('./logger');
 const Server = require('./web');
+const EventStore = require('./event-store');
 
-app.use('/thermometer-sensor', new Server());
+const eventStore = new EventStore({});
+
+app.use('/thermometer-sensor', new Server({ eventStore }));
 
 app.listen(PORT, () => {
   logger.info(`Listening on port ${PORT}`);
