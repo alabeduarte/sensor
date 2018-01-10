@@ -1,7 +1,7 @@
 const express = require('express');
 const { json } = require('body-parser');
 const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
-const Validation = require('folktale/validation');
+const PostTemperatureData = require('./post-temperature-data');
 
 module.exports = function Server({ eventStore }) {
   const server = express();
@@ -9,21 +9,20 @@ module.exports = function Server({ eventStore }) {
 
   server.get('/', (_, res) => res.sendStatus(OK));
 
-  server.post('/', ({ body }, res) => {
-    const isDataValid = data => {
-      const { Success, Failure } = Validation;
-      return data.every(d => d !== undefined) ? Success(data) : Failure();
-    };
-
+  server.post('/', async ({ body }, res) => {
     const { currentTemperature, idealTemperatureRange } = body;
+    const command = await PostTemperatureData({ eventStore })({
+      data: {
+        currentTemperature,
+        idealTemperatureRange
+      }
+    });
 
-    isDataValid([currentTemperature, idealTemperatureRange]).fold(
-      function Failure() {
+    command.fold(
+      () => {
         res.sendStatus(BAD_REQUEST);
       },
-      async function Success() {
-        const data = { currentTemperature, idealTemperatureRange };
-        await eventStore.store('TEMPERATURE_HAS_CHANGED', { data });
+      () => {
         res.sendStatus(CREATED);
       }
     );
