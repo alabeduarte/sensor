@@ -1,25 +1,25 @@
 version: '2'
 services:
 
-  client:
+  web-client:
     image: node:9.3.0-alpine
-    working_dir: /home/client
+    working_dir: /home/web-client
     command: yarn start
     volumes:
-      - ./client:/home/client
-      - ./client/node_modules:/home/client/node_modules:delegated
+      - ./web-client:/home/web-client
+      - ./web-client/node_modules:/home/web-client/node_modules:delegated
     ports:
       - '3000:3000'
     environment:
       - NODE_ENV=$NODE_ENV
 
-  server:
+  thermometer-sensor:
     image: node:9.3.0-alpine
-    working_dir: /home/server
+    working_dir: /home/thermometer-sensor
     command: yarn start
     volumes:
-      - ./server:/home/server
-      - ./server/node_modules:/home/server/node_modules:delegated
+      - ./thermometer-sensor:/home/thermometer-sensor
+      - ./thermometer-sensor/node_modules:/home/thermometer-sensor/node_modules:delegated
     ports:
       - '8080:8080'
     environment:

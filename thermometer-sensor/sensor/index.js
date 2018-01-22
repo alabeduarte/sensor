@@ -9,5 +9,7 @@ module.exports = function ThermometerSensor({
     await temperatureRangeDetector.detectTemperatureInRange({
       refrigerationNeeds
     });
+
+    // TODO: notification.send(data);
   });
 };
