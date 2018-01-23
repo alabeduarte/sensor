@@ -1,34 +1,44 @@
-web_client := web-client
-thermometer_sensor := thermometer-sensor
+web-client := web-client
+thermometer-sensor := thermometer-sensor
+notification-test := notification
 
 # ---
 
-$(web_client)/node_modules: $(web_client)/package.json
+$(web-client)/node_modules: $(web-client)/package.json
 	docker-compose run --rm web-client sh -c 'yarn install && touch node_modules'
-to_remove += $(web_client)/node_modules
+to_remove += $(web-client)/node_modules
 
-$(thermometer_sensor)/node_modules: $(thermometer_sensor)/package.json
+$(thermometer-sensor)/node_modules: $(thermometer-sensor)/package.json
 	docker-compose run --rm thermometer-sensor sh -c 'yarn install && touch node_modules'
-to_remove += $(thermometer_sensor)/node_modules
+to_remove += $(thermometer-sensor)/node_modules
+
+$(notification-test)/node_modules: $(notification-test)/package.json
+	docker-compose run --rm notification-test sh -c 'yarn install && touch node_modules'
+to_remove += $(notification-test)/node_modules
 
 # ---
 
 .PHONY: dev
-dev: $(web_client)/node_modules $(thermometer_sensor)/node_modules
+dev: $(web-client)/node_modules $(thermometer-sensor)/node_modules
 	docker-compose up --build
 
 .PHONY: lint
-lint: $(thermometer_sensor)/node_modules
+lint: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn lint
 
 .PHONY: format
-format: $(thermometer_sensor)/node_modules
+format: $(thermometer-sensor)/node_modules $(notification-test)/node_modules
 	docker-compose run --rm thermometer-sensor yarn format
 
 .PHONY: test
-test: $(thermometer_sensor)/node_modules lint
+test: $(thermometer-sensor)/node_modules $(notification-test)/node_modules lint
 	docker-compose run --rm thermometer-sensor yarn test
+	docker-compose run --rm notification-test yarn test
 
-.PHONY: test.watch
-test.watch: $(thermometer_sensor)/node_modules
+.PHONY: test.thermometer-sensor.watch
+test.thermometer-sensor.watch: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn test:watch
+
+.PHONY: test.notification.watch
+test.notification.watch: $(notification-test)/node_modules
+	docker-compose run --rm notification-test yarn test:watch

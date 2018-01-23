@@ -25,3 +25,24 @@ services:
     environment:
       - NODE_ENV=$NODE_ENV
       - PORT=$SERVER_PORT
+
+  notification:
+    image: meroje/alpine-nchan:latest
+    working_dir: /home/notification
+    volumes:
+      - ./notification:/home/notification
+    depends_on:
+      - thermometer-sensor
+    ports:
+      - 9090:80
+    volumes:
+      - ./notification/nginx.conf:/etc/nginx/nginx.conf
+
+  notification-test:
+    image: node:9.3.0-alpine
+    working_dir: /home/notification
+    depends_on:
+      - notification
+    volumes:
+      - ./notification:/home/notification
+      - ./notification/node_modules:/home/notification/node_modules:delegated
