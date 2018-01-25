@@ -1,5 +1,6 @@
 module.exports = function ThermometerSensor({
   eventStore,
+  transport,
   temperatureRangeDetector
 }) {
   eventStore.subscribe('TEMPERATURE_HAS_CHANGED', async ({ data }) => {
@@ -9,7 +10,7 @@ module.exports = function ThermometerSensor({
     await temperatureRangeDetector.detectTemperatureInRange({
       refrigerationNeeds
     });
-
-    // TODO: notification.send(data);
   });
+
+  eventStore.subscribe('TEMPERATURE_OUT_OF_RANGE_DETECTED', transport.send);
 };
