@@ -1,6 +1,6 @@
 web-client := web-client
 thermometer-sensor := thermometer-sensor
-notification-test := notification
+integration-tests := integration-tests
 
 # ---
 
@@ -12,9 +12,9 @@ $(thermometer-sensor)/node_modules: $(thermometer-sensor)/package.json
 	docker-compose run --rm thermometer-sensor sh -c 'yarn install && touch node_modules'
 to_remove += $(thermometer-sensor)/node_modules
 
-$(notification-test)/node_modules: $(notification-test)/package.json
-	docker-compose run --rm notification-test sh -c 'yarn install && touch node_modules'
-to_remove += $(notification-test)/node_modules
+$(integration-tests)/node_modules: $(integration-tests)/package.json
+	docker-compose run --rm integration-tests sh -c 'cd integration-tests; yarn install && touch node_modules'
+to_remove += $(integration-tests)/node_modules
 
 # ---
 
@@ -33,12 +33,11 @@ format: $(thermometer-sensor)/node_modules
 .PHONY: test
 test: $(thermometer-sensor)/node_modules lint
 	docker-compose run --rm thermometer-sensor yarn test
-	docker-compose run --rm notification-test yarn test
+
+.PHONY: test.integration
+test.integration: $(integration-tests)/node_modules lint
+	docker-compose run --rm integration-tests sh -c 'cd integration-tests; yarn test'
 
 .PHONY: test.thermometer-sensor.watch
 test.thermometer-sensor.watch: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn test:watch
-
-.PHONY: test.notification.watch
-test.notification.watch: $(notification-test)/node_modules
-	docker-compose run --rm notification-test yarn test:watch

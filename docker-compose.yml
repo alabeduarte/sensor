@@ -38,11 +38,15 @@ services:
     volumes:
       - ./notification/nginx.conf:/etc/nginx/nginx.conf
 
-  notification-test:
+  integration-tests:
     image: node:9.3.0-alpine
-    working_dir: /home/notification
+    working_dir: /home/pragma-brewery
     depends_on:
+      - web-client
+      - thermometer-sensor
       - notification
     volumes:
-      - ./notification:/home/notification
-      - ./notification/node_modules:/home/notification/node_modules:delegated
+      - ./:/home/pragma-brewery
+      - ./integration-tests/node_modules:/home/pragma-brewery/integration-tests/node_modules:delegated
+      - ./web-client/node_modules:/home/pragma-brewery/web-client/node_modules:delegated
+      - ./thermometer-sensor/node_modules:/home/pragma-brewery/thermometer-sensor/node_modules:delegated
