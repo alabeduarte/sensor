@@ -27,11 +27,11 @@ lint: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn lint
 
 .PHONY: format
-format: $(thermometer-sensor)/node_modules $(notification-test)/node_modules
+format: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn format
 
 .PHONY: test
-test: $(thermometer-sensor)/node_modules $(notification-test)/node_modules lint
+test: $(thermometer-sensor)/node_modules lint
 	docker-compose run --rm thermometer-sensor yarn test
 	docker-compose run --rm notification-test yarn test
 
