@@ -41,3 +41,7 @@ test.integration: $(integration-tests)/node_modules lint
 .PHONY: test.thermometer-sensor.watch
 test.thermometer-sensor.watch: $(thermometer-sensor)/node_modules
 	docker-compose run --rm thermometer-sensor yarn test:watch
+
+.PHONY: test.integration.watch
+test.integration.watch: $(integration-tests)/node_modules lint
+	docker-compose run --rm integration-tests sh -c 'cd integration-tests; yarn test:watch'

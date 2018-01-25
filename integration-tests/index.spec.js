@@ -1,39 +1,11 @@
-const sleep = require('then-sleep');
-const EventSource = require('eventsource');
 const { promisify } = require('util');
 const request = require('request');
+const get = promisify(request.get);
 const post = promisify(request.post);
-const del = promisify(request.del);
+const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
+const Subscription = require('./subscription');
 
-const resolve = (url, path) => (path ? `${url}/${path}` : url);
-
-function Subscription({ pubUrl, subUrl }) {
-  const subscriptions = [];
-  const urls = new Set();
-
-  return {
-    async publish(message, channel) {
-      const url = resolve(pubUrl, channel);
-      urls.add(url);
-      await sleep(50);
-      return post(url, { json: message });
-    },
-    subscribe(channel) {
-      const url = resolve(subUrl, channel);
-      const eventSource = new EventSource(url);
-      subscriptions.push(eventSource);
-
-      return eventSource;
-    },
-    async unsubscribeAll() {
-      subscriptions.forEach(s => s.close());
-      await Promise.all(Array.from(urls).map(url => del(url)));
-      await sleep(1000);
-    }
-  };
-}
-
-describe('Notification', () => {
+describe('Pragma-Brewery', () => {
   const subscription = new Subscription({
     pubUrl: 'http://notification/pub',
     subUrl: 'http://notification/sub'
@@ -41,16 +13,57 @@ describe('Notification', () => {
 
   afterEach(subscription.unsubscribeAll);
 
-  it('supports pub/sub', done => {
-    const channel = '_test_broadcast_';
-    const connection = subscription.subscribe(channel);
-    const message = { body: 'supports pub/sub' };
+  describe('notification', () => {
+    it('supports pub/sub', done => {
+      const channel = '_test_broadcast_';
+      const connection = subscription.subscribe(channel);
+      const message = { body: 'supports pub/sub' };
 
-    connection.onmessage = ({ data }) => {
-      expect(data).toEqual(JSON.stringify(message));
-      done();
-    };
+      connection.onmessage = ({ data }) => {
+        expect(data).toEqual(JSON.stringify(message));
+        done();
+      };
 
-    subscription.publish(message, channel).catch(done);
+      subscription.publish(message, channel).catch(done);
+    });
+  });
+
+  describe('thermometer-sensor', () => {
+    const URL = 'http://thermometer-sensor:8080/thermometer-sensor';
+
+    describe('GET /', () => {
+      it('returns HTTP status OK', done => {
+        get(URL).then(({ statusCode }) => {
+          expect(statusCode).toEqual(OK);
+          done();
+        }).catch(done);
+      });
+    });
+
+    describe('POST /', () => {
+      it('returns HTTP status CREATED', done => {
+        const payload = {
+          currentTemperature: 5,
+          idealTemperatureRange: {
+            min: 4,
+            max: 6
+          }
+        };
+
+        post(URL, { json: payload }).then(({ statusCode }) => {
+          expect(statusCode).toEqual(CREATED);
+          done();
+        }).catch(done);
+      });
+
+      describe('when sensor data is missing', () => {
+        it('returns HTTP status BAD_REQUEST', done => {
+          post(URL).then(({ statusCode }) => {
+            expect(statusCode).toEqual(BAD_REQUEST);
+            done();
+          }).catch(done);
+        });
+      });
+    });
   });
 });
