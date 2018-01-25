@@ -1,9 +1,6 @@
-const sleep = require('then-sleep');
 const EventSource = require('eventsource');
-const { promisify } = require('util');
-const request = require('request');
-const post = promisify(request.post);
-const del = promisify(request.del);
+const sleep = require('then-sleep');
+const { post, del } = require('../http-client');
 
 module.exports = function Subscription({ pubUrl, subUrl }) {
   const subscriptions = [];
