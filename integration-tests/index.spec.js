@@ -1,7 +1,4 @@
-const { promisify } = require('util');
-const request = require('request');
-const get = promisify(request.get);
-const post = promisify(request.post);
+const { get, post } = require('./http-client');
 const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
 const Subscription = require('./subscription');
 
@@ -14,10 +11,32 @@ describe('Pragma-Brewery', () => {
   afterEach(subscription.unsubscribeAll);
 
   describe('notification', () => {
+    let connection;
+    const channel = 'user';
+
+    beforeEach(() => {
+      connection = subscription.subscribe(channel);
+    });
+
     it('supports pub/sub', done => {
-      const channel = '_test_broadcast_';
-      const connection = subscription.subscribe(channel);
       const message = { body: 'supports pub/sub' };
+
+      connection.onmessage = ({ data }) => {
+        expect(data).toEqual(JSON.stringify(message));
+        done();
+      };
+
+      subscription.publish(message, channel).catch(done);
+    });
+
+    it('receives realtime data when temperature is out of range', done => {
+      const message = {
+        currentTemperature: 3,
+        idealTemperatureRange: {
+          min: 4,
+          max: 6
+        }
+      };
 
       connection.onmessage = ({ data }) => {
         expect(data).toEqual(JSON.stringify(message));
