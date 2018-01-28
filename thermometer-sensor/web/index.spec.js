@@ -11,12 +11,6 @@ describe('Server', () => {
     server = new Server({ eventStore });
   });
 
-  it('returns OK', done => {
-    request(server)
-      .get('/')
-      .expect(OK, done);
-  });
-
   describe('POST /', () => {
     it('returns CREATED when sending sensor data', done => {
       request(server)
@@ -67,6 +61,39 @@ describe('Server', () => {
 
           done();
         });
+    });
+  });
+
+  describe('GET /', () => {
+    it('returns OK', done => {
+      request(server).get('/').expect(OK, [], done);
+    });
+
+    describe('when events are created', () => {
+      beforeEach(done => {
+        request(server)
+          .post('/')
+          .send({
+            currentTemperature: 5,
+            idealTemperatureRange: {
+              min: 4,
+              max: 6
+            }
+          }).expect(CREATED, done);
+      });
+
+      it('returns all events', done => {
+        request(server).get('/').expect(OK, [{
+          name: 'TEMPERATURE_HAS_CHANGED',
+          data: {
+            currentTemperature: 5,
+            idealTemperatureRange: {
+              min: 4,
+              max: 6
+            }
+          }
+        }], done);
+      });
     });
   });
 });
