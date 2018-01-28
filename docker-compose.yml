@@ -39,13 +39,11 @@ services:
 
   integration-tests:
     image: node:9.3.0-alpine
-    working_dir: /home/pragma-brewery
+    working_dir: /home/integration-tests
     depends_on:
       - web-client
       - thermometer-sensor
       - notification
     volumes:
-      - ./:/home/pragma-brewery
-      - ./integration-tests/node_modules:/home/pragma-brewery/integration-tests/node_modules:delegated
-      - ./web-client/node_modules:/home/pragma-brewery/web-client/node_modules:delegated
-      - ./thermometer-sensor/node_modules:/home/pragma-brewery/thermometer-sensor/node_modules:delegated
+      - ./integration-tests:/home/integration-tests
+      - ./integration-tests/node_modules:/home/integration-tests/node_modules:delegated
