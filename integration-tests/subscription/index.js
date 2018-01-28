@@ -1,6 +1,6 @@
-const EventSource = require('eventsource');
-const sleep = require('then-sleep');
-const { post, del } = require('../http-client');
+const EventSource = require("eventsource");
+const sleep = require("then-sleep");
+const { post, del } = require("../http-client");
 
 module.exports = function Subscription({ pubUrl, subUrl }) {
   const subscriptions = [];
@@ -30,4 +30,4 @@ module.exports = function Subscription({ pubUrl, subUrl }) {
   };
 
   return { publish, subscribe, unsubscribeAll };
-}
+};

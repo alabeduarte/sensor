@@ -24,15 +24,14 @@ services:
       - '8080:8080'
     environment:
       - NODE_ENV=$NODE_ENV
-      - PORT=$SERVER_PORT
+      - PORT=$SENSOR_SERVER_PORT
+      - NCHAN_URL=$NCHAN_URL
 
   notification:
     image: meroje/alpine-nchan:latest
     working_dir: /home/notification
     volumes:
       - ./notification:/home/notification
-    depends_on:
-      - thermometer-sensor
     ports:
       - 9090:80
     volumes:

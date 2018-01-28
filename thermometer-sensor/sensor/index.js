@@ -12,5 +12,7 @@ module.exports = function ThermometerSensor({
     });
   });
 
-  eventStore.subscribe('TEMPERATURE_OUT_OF_RANGE_DETECTED', transport.send);
+  eventStore.subscribe('TEMPERATURE_OUT_OF_RANGE_DETECTED', async event => {
+    await transport.send(event);
+  });
 };
