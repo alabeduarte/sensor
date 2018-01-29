@@ -7,7 +7,9 @@ module.exports = function Server({ eventStore }) {
   const server = express();
   server.use(json());
 
-  server.get('/', (_, res) => res.status(OK).send(eventStore.all()));
+  server.get('/', async (_, res) => {
+    res.status(OK).send(await eventStore.all());
+  });
 
   server.post('/', async ({ body }, res) => {
     const { currentTemperature, idealTemperatureRange } = body;

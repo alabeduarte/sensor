@@ -1,5 +1,6 @@
-const { post } = require('./http-client');
 const { CREATED } = require('http-status-codes');
+const { post } = require('./http-client');
+const cleanDB = require('./database-cleaner');
 const Subscription = require('./subscription');
 
 describe('Pragma-Brewery', () => {
@@ -10,6 +11,7 @@ describe('Pragma-Brewery', () => {
   let connection;
 
   beforeEach(() => {
+    cleanDB();
     connection = subscription.subscribe(channel);
   });
 

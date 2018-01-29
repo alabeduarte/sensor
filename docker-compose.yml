@@ -13,6 +13,11 @@ services:
     environment:
       - NODE_ENV=$NODE_ENV
 
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
   thermometer-sensor:
     image: node:9.3.0-alpine
     working_dir: /home/thermometer-sensor
@@ -20,12 +25,15 @@ services:
     volumes:
       - ./thermometer-sensor:/home/thermometer-sensor
       - ./thermometer-sensor/node_modules:/home/thermometer-sensor/node_modules:delegated
+    depends_on:
+      - redis
     ports:
       - '8080:8080'
     environment:
       - NODE_ENV=$NODE_ENV
       - PORT=$SENSOR_SERVER_PORT
       - NCHAN_URL=$NCHAN_URL
+      - SENSOR_REDIS_URL=$SENSOR_REDIS_URL
 
   notification:
     image: meroje/alpine-nchan:latest
@@ -47,3 +55,6 @@ services:
     volumes:
       - ./integration-tests:/home/integration-tests
       - ./integration-tests/node_modules:/home/integration-tests/node_modules:delegated
+    environment:
+      - NODE_ENV=$NODE_ENV
+      - SENSOR_REDIS_URL=$SENSOR_REDIS_URL
