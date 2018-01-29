@@ -1,11 +1,11 @@
-const Subscription = require("./subscription");
+const Subscription = require('./subscription');
 
-describe("notification", () => {
+describe('notification', () => {
   const subscription = new Subscription({
-    pubUrl: "http://notification/pub",
-    subUrl: "http://notification/sub"
+    pubUrl: 'http://notification/pub',
+    subUrl: 'http://notification/sub'
   });
-  const channel = "notification-channel";
+  const channel = 'notification-channel';
   let connection;
 
   beforeEach(() => {
@@ -14,8 +14,8 @@ describe("notification", () => {
 
   afterEach(subscription.unsubscribeAll);
 
-  it("supports pub/sub", done => {
-    const message = { body: "supports pub/sub" };
+  it('supports pub/sub', done => {
+    const message = { body: 'supports pub/sub' };
 
     connection.onmessage = ({ data }) => {
       expect(data).toEqual(JSON.stringify(message));

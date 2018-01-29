@@ -1,11 +1,11 @@
-const { get, post } = require("./http-client");
-const { OK, CREATED, BAD_REQUEST } = require("http-status-codes");
+const { get, post } = require('./http-client');
+const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
 
-describe("thermometer-sensor", () => {
-  const URL = "http://thermometer-sensor:8080/thermometer-sensor";
+describe('thermometer-sensor', () => {
+  const URL = 'http://thermometer-sensor:8080/thermometer-sensor';
 
-  describe("GET /", () => {
-    it("returns HTTP status OK", done => {
+  describe('GET /', () => {
+    it('returns HTTP status OK', done => {
       get(URL)
         .then(({ statusCode }) => {
           expect(statusCode).toEqual(OK);
@@ -15,8 +15,8 @@ describe("thermometer-sensor", () => {
     });
   });
 
-  describe("POST /", () => {
-    it("returns HTTP status CREATED", done => {
+  describe('POST /', () => {
+    it('returns HTTP status CREATED', done => {
       const payload = {
         currentTemperature: 5,
         idealTemperatureRange: {
@@ -33,8 +33,8 @@ describe("thermometer-sensor", () => {
         .catch(done);
     });
 
-    describe("when sensor data is missing", () => {
-      it("returns HTTP status BAD_REQUEST", done => {
+    describe('when sensor data is missing', () => {
+      it('returns HTTP status BAD_REQUEST', done => {
         post(URL)
           .then(({ statusCode }) => {
             expect(statusCode).toEqual(BAD_REQUEST);
