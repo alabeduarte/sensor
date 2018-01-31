@@ -1,9 +1,10 @@
 const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
 const { get, post } = require('./http-client');
 const cleanDB = require('./database-cleaner');
+const { SENSOR_URL } = process.env;
 
 describe('thermometer-sensor', () => {
-  const URL = 'http://thermometer-sensor:8080/thermometer-sensor';
+  const URL = `${SENSOR_URL}/thermometer-sensor`;
 
   beforeEach(() => cleanDB());
 

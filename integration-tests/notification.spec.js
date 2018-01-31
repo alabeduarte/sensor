@@ -1,9 +1,10 @@
 const Subscription = require('./subscription');
+const { NCHAN_URL } = process.env;
 
 describe('notification', () => {
   const subscription = new Subscription({
-    pubUrl: 'http://notification/pub',
-    subUrl: 'http://notification/sub'
+    pubUrl: `${NCHAN_URL}/pub`,
+    subUrl: `${NCHAN_URL}/sub`
   });
   const channel = 'notification-channel';
   let connection;
