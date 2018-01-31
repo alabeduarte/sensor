@@ -12,9 +12,10 @@ module.exports = function Server({ eventStore }) {
   });
 
   server.post('/', async ({ body }, res) => {
-    const { currentTemperature, idealTemperatureRange } = body;
+    const { uuid, currentTemperature, idealTemperatureRange } = body;
     const command = await PostTemperatureData({ eventStore })({
       data: {
+        uuid,
         currentTemperature,
         idealTemperatureRange
       }

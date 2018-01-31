@@ -1,4 +1,5 @@
 const { CREATED } = require('http-status-codes');
+const { random } = require('faker');
 const { post } = require('./http-client');
 const cleanDB = require('./database-cleaner');
 const Subscription = require('./subscription');
@@ -19,7 +20,10 @@ describe('Pragma-Brewery', () => {
   afterEach(subscription.unsubscribeAll);
 
   it('receives realtime data when temperature is out of range', done => {
+    const uuid = random.uuid();
+
     const message = {
+      uuid,
       currentTemperature: 3,
       idealTemperatureRange: {
         min: 4,

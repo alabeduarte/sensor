@@ -1,3 +1,4 @@
+const { random } = require('faker');
 const ThermometerSensor = require('./index');
 const EventStore = require('../event-store');
 
@@ -10,18 +11,21 @@ function StubbedTransport() {
 }
 
 describe('ThermometerSensor', () => {
-  let eventStore, temperatureRangeDetector, transport;
+  let eventStore, temperatureRangeDetector, transport, uuid;
 
   beforeEach(() => {
     eventStore = new EventStore({});
     temperatureRangeDetector = new StubbedTemperatureRangeDetector();
     transport = new StubbedTransport();
+
+    uuid = random.uuid();
   });
 
   it('triggers temperature range detected when it changes', async () => {
     spyOn(temperatureRangeDetector, 'detectTemperatureInRange');
 
     const data = {
+      uuid,
       currentTemperature: 4,
       idealTemperatureRange: {
         min: 3,
@@ -40,6 +44,7 @@ describe('ThermometerSensor', () => {
       temperatureRangeDetector.detectTemperatureInRange
     ).toHaveBeenCalledWith({
       refrigerationNeeds: {
+        uuid,
         currentTemperature: 4,
         idealTemperatureRange: {
           min: 3,
@@ -53,6 +58,7 @@ describe('ThermometerSensor', () => {
     spyOn(transport, 'send');
 
     const data = {
+      uuid,
       currentTemperature: 3,
       idealTemperatureRange: {
         min: 4,

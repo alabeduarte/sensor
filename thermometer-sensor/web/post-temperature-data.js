@@ -1,8 +1,10 @@
 const { Success, Failure } = require('folktale/validation');
 
 const checkMissingData = data => {
-  const { currentTemperature, idealTemperatureRange } = data;
-  return [currentTemperature, idealTemperatureRange].every(d => d !== undefined)
+  const { uuid, currentTemperature, idealTemperatureRange } = data;
+  return [uuid, currentTemperature, idealTemperatureRange].every(
+    d => d !== undefined
+  )
     ? Success(data)
     : Failure();
 };

@@ -1,4 +1,5 @@
 const { OK, CREATED, BAD_REQUEST } = require('http-status-codes');
+const { random } = require('faker');
 const { get, post } = require('./http-client');
 const cleanDB = require('./database-cleaner');
 const { SENSOR_URL } = process.env;
@@ -20,8 +21,12 @@ describe('thermometer-sensor', () => {
     });
 
     describe('when there is sensor data', () => {
+      let uuid;
+
       beforeEach(done => {
+        uuid = random.uuid();
         const payload = {
+          uuid,
           currentTemperature: 5,
           idealTemperatureRange: {
             min: 4,
@@ -46,6 +51,7 @@ describe('thermometer-sensor', () => {
                 {
                   name: 'TEMPERATURE_HAS_CHANGED',
                   data: {
+                    uuid,
                     currentTemperature: 5,
                     idealTemperatureRange: { min: 4, max: 6 }
                   }
@@ -53,6 +59,7 @@ describe('thermometer-sensor', () => {
                 {
                   name: 'TEMPERATURE_IN_RANGE_DETECTED',
                   data: {
+                    uuid,
                     currentTemperature: 5,
                     idealTemperatureRange: { min: 4, max: 6 }
                   }
@@ -69,7 +76,10 @@ describe('thermometer-sensor', () => {
 
   describe('POST /', () => {
     it('returns HTTP status CREATED', done => {
+      const uuid = random.uuid();
+
       const payload = {
+        uuid,
         currentTemperature: 5,
         idealTemperatureRange: {
           min: 4,
