@@ -45,6 +45,18 @@ services:
     volumes:
       - ./notification/nginx.conf:/etc/nginx/nginx.conf
 
+  data-ingestion:
+    image: node:9.3.0-alpine
+    working_dir: /home/data-ingestion
+    volumes:
+      - ./data-ingestion:/home/data-ingestion
+      - ./data-ingestion/node_modules:/home/data-ingestion/node_modules:delegated
+    depends_on:
+      - thermometer-sensor
+    environment:
+      - NODE_ENV=$NODE_ENV
+      - SENSOR_URL=$SENSOR_URL
+
   integration-tests:
     image: node:9.3.0-alpine
     working_dir: /home/integration-tests

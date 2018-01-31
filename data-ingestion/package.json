@@ -1,0 +1,19 @@
+{
+  "name": "data-ingestion",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node index",
+    "lint": "eslint .",
+    "format": "prettier-eslint \"**/*.js\" --write"
+  },
+  "author": "Alabe Duarte",
+  "dependencies": {
+    "request": "^2.83.0",
+    "then-sleep": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-plugin-jest": "^21.5.0",
+    "prettier-eslint-cli": "^4.7.0"
+  }
+}
