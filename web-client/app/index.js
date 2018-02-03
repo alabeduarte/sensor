@@ -12,5 +12,5 @@ export default function App() {
         <li>Beer 6 (Pale Ale)</li>
       </ul>
     </div>
-  )
+  );
 }

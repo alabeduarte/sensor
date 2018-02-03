@@ -3,10 +3,24 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "quik --port 3000"
+    "start": "quik --port 3000",
+    "test": "jest",
+    "test:watch": "yarn test --watchAll",
+    "lint": "eslint .",
+    "format": "prettier-eslint \"**/*.js\" --write"
   },
   "author": "Alabe Duarte",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-eslint": "^8.2.1",
+    "babel-preset-es2015": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.16.0",
+    "eslint-plugin-jest": "^21.7.0",
+    "eslint-plugin-react": "^7.6.1",
+    "jest": "^22.1.4",
+    "prettier-eslint-cli": "^4.7.0",
     "quik": "^1.0.1"
   },
   "dependencies": {
