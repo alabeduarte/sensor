@@ -12,6 +12,7 @@ services:
     command: yarn start
     volumes:
       - ./web-client:/home/web-client
+      - ./web-client/node_modules:/home/web-client/node_modules:delegated
     ports:
       - '3000:3000'
 
@@ -21,6 +22,7 @@ services:
     command: yarn start
     volumes:
       - ./thermometer-sensor:/home/thermometer-sensor
+      - ./thermometer-sensor/node_modules:/home/thermometer-sensor/node_modules:delegated
     depends_on:
       - redis
     ports:
@@ -47,6 +49,7 @@ services:
     command: yarn start
     volumes:
       - ./data-ingestion:/home/data-ingestion
+      - ./data-ingestion/node_modules:/home/data-ingestion/node_modules:delegated
     depends_on:
       - thermometer-sensor
     environment:
@@ -61,6 +64,7 @@ services:
       - notification
     volumes:
       - ./integration-tests:/home/integration-tests
+      - ./integration-tests/node_modules:/home/integration-tests/node_modules:delegated
     environment:
       - NODE_ENV=$NODE_ENV
       - NCHAN_URL=$NCHAN_URL
