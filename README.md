@@ -1,5 +1,7 @@
 # sensor
 
+[![travis build](https://img.shields.io/travis/alabeduarte/sensor.svg)](https://travis-ci.org/alabeduarte/sensor)
+
 ### Requirements:
 
 * docker
