@@ -36,6 +36,7 @@ services:
   data-ingestion:
     image: node:9.3.0-alpine
     working_dir: /home/data-ingestion
+    command: yarn start
     volumes:
       - ./data-ingestion:/home/data-ingestion
       - ./data-ingestion/node_modules:/home/data-ingestion/node_modules:delegated

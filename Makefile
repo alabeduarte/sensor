@@ -18,6 +18,10 @@ to_remove += $(integration-tests)/node_modules
 
 # ---
 
+.PHONY: dev
+dev: $(thermometer-sensor)/node_modules $(data-ingestion)/node_modules
+	docker-compose up --build
+
 .PHONY: send.data
 send.data: $(thermometer-sensor)/node_modules $(data-ingestion)/node_modules lint
 	docker-compose run --rm $(data-ingestion) yarn start
