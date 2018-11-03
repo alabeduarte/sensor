@@ -1,7 +1,7 @@
 const { promisify } = require('util');
 const EventBus = require('./event-bus');
 const redis = require('redis');
-const STREAM_KEY = 'pragma-brewery';
+const STREAM_KEY = 'sensor';
 
 module.exports = function RedisEventStore({ url, bus = new EventBus() }) {
   const client = redis.createClient({ url });

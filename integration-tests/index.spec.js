@@ -5,11 +5,11 @@ const cleanDB = require('./database-cleaner');
 const Subscription = require('./subscription');
 const { SENSOR_URL, NCHAN_URL } = process.env;
 
-describe('Pragma-Brewery', () => {
+describe('sensor', () => {
   const subscription = new Subscription({ subUrl: `${NCHAN_URL}/sub` });
   const sensorUrl = `${SENSOR_URL}/thermometer-sensor`;
 
-  const channel = 'pragma-brewery';
+  const channel = 'sensor';
   let connection;
 
   beforeEach(() => {

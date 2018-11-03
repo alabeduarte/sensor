@@ -16,7 +16,7 @@ describe('Nchan', () => {
 
     nchan.send(message);
 
-    expect(httpClient.post).toHaveBeenCalledWith(`${url}/pub/pragma-brewery`, {
+    expect(httpClient.post).toHaveBeenCalledWith(`${url}/pub/sensor`, {
       json: message
     });
   });
