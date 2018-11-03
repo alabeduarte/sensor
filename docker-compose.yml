@@ -1,18 +1,6 @@
 version: '2'
 services:
 
-  web-client:
-    image: node:9.3.0-alpine
-    working_dir: /home/web-client
-    command: yarn start
-    volumes:
-      - ./web-client:/home/web-client
-      - ./web-client/node_modules:/home/web-client/node_modules:delegated
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=$NODE_ENV
-
   redis:
     image: redis:alpine
     ports:
@@ -61,7 +49,6 @@ services:
     image: node:9.3.0-alpine
     working_dir: /home/integration-tests
     depends_on:
-      - web-client
       - thermometer-sensor
       - notification
     volumes:

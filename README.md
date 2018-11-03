@@ -8,7 +8,6 @@
 ### Commands Menu:
 
 ```sh
-$ make dev
 $ make lint
 $ make format
 $ make test
