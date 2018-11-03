@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --forceExit",
+    "test": "jest --coverage --detectOpenHandles",
     "test:watch": "yarn test --watchAll",
     "lint": "eslint .",
     "format": "prettier-eslint \"**/*.js\" --write"
@@ -24,8 +24,11 @@
     "eslint-plugin-jest": "^21.5.0",
     "eventsource": "^1.0.5",
     "faker": "^4.1.0",
-    "jest": "^22.0.4",
+    "jest": "^23.6.0",
     "prettier-eslint-cli": "^4.7.0",
     "supertest": "^3.0.0"
+  },
+  "jest": {
+    "collectCoverage": false
   }
 }
