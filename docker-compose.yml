@@ -6,6 +6,15 @@ services:
     ports:
       - 6379:6379
 
+  web-client:
+    image: node:10.13.0-alpine
+    working_dir: /home/web-client
+    command: yarn start
+    volumes:
+      - ./web-client:/home/web-client
+    ports:
+      - '3000:3000'
+
   thermometer-sensor:
     image: node:9.3.0-alpine
     working_dir: /home/thermometer-sensor
