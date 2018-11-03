@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jest --coverage --detectOpenHandles",
+    "test": "jest --coverage --forceExit",
     "test:watch": "yarn test --watchAll",
     "lint": "eslint .",
     "format": "prettier-eslint \"**/*.js\" --write"
