@@ -16,7 +16,7 @@ services:
       - '3000:3000'
 
   thermometer-sensor:
-    image: node:9.3.0-alpine
+    image: node:10.13.0-alpine
     working_dir: /home/thermometer-sensor
     command: yarn start
     volumes:
@@ -42,7 +42,7 @@ services:
       - ./notification/nginx.conf:/etc/nginx/nginx.conf
 
   data-ingestion:
-    image: node:9.3.0-alpine
+    image: node:10.13.0-alpine
     working_dir: /home/data-ingestion
     command: yarn start
     volumes:
@@ -54,7 +54,7 @@ services:
       - SENSOR_URL=$SENSOR_URL
 
   integration-tests:
-    image: node:9.3.0-alpine
+    image: node:10.13.0-alpine
     working_dir: /home/integration-tests
     depends_on:
       - thermometer-sensor
