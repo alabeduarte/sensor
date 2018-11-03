@@ -14,9 +14,10 @@ $ make dev
 $ make lint
 $ make format
 $ make test
-$ make test.integration
 $ make test.thermometer-sensor.watch
+$ make test.integration
 $ make test.integration.watch
+$ make send.data
 ```
 
 ### Running locally:
