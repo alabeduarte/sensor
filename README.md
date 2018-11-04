@@ -28,8 +28,11 @@ Start the server:
 $ make dev
 ```
 
-Then, check the API response at http://localhost:8080/thermometer-sensor.
+Then, try this address on your browser: http://localhost:3000
 
+![alt screenshot](https://user-images.githubusercontent.com/418269/47964322-73582580-e08c-11e8-8226-34f14d159e81.png)
+
+### Data Ingestion
 Ingest random data to simulate different temperature ranges:
 
 ```sh
