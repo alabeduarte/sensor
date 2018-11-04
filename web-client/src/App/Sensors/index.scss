@@ -1,0 +1,50 @@
+.sensors {
+  font-family: "Open Sans";
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: block;
+    margin: 5px;
+  }
+
+  .sensor {
+    display: flex;
+    flex-flow: row nowrap;
+    font-size: 14px;
+    border: 2px solid #5D6D7E;
+
+    > * {
+      border: 1px solid #AEB6BF;
+      margin: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+
+    .column-large {
+      width: 100%;
+    }
+
+    .column-xlarge {
+      width: 100%;
+    }
+
+    .column-small {
+      width: 200px;
+    }
+  }
+
+  .info {
+    background-color: #D5F5E3;
+    color: #1D8348;
+  }
+
+  .warning {
+    background-color: #F5B7B1;
+    color: #943126;
+  }
+}
