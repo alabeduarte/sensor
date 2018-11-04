@@ -7,8 +7,9 @@
   "scripts": {
     "start": "parcel index.html -p 3000",
     "test": "jest --coverage --detectOpenHandles",
-    "test:watch": "yarn test --watchAll",
-    "lint": "eslint src"
+    "test:watch": "jest --watchAll --verbose false",
+    "lint": "eslint src",
+    "format": "prettier-eslint \"**/*.js\" --write"
   },
   "dependencies": {
     "babel-preset-react-app": "^6.1.0",
@@ -25,18 +26,30 @@
     "eslint": "^5.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.27.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "jest": "^23.6.0"
+    "faker": "^4.1.0",
+    "jest": "^23.6.0",
+    "nock": "^10.0.2",
+    "node-fetch": "^2.2.0",
+    "prettier-eslint-cli": "^4.7.1"
   },
   "jest": {
     "collectCoverage": false,
-    "collectCoverageFrom": ["src/**"],
-    "roots": ["src"],
+    "collectCoverageFrom": [
+      "src/**"
+    ],
+    "roots": [
+      "src"
+    ],
     "cacheDirectory": ".tmp",
     "moduleNameMapper": {
       "^test-support$": "<rootDir>/test-support"
     },
-    "setupTestFrameworkScriptFile": "<rootDir>/test-support/enzyme-adapter-setup.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/test-support/enzyme-adapter-setup.js",
+    "setupFiles": [
+      "<rootDir>/test-support/fetch.js"
+    ]
   }
 }

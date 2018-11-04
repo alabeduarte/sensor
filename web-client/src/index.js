@@ -2,5 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import thermometerSensor from './api/thermometer-sensor';
 
-ReactDOM.render(React.createElement(App), document.getElementById('root'));
+thermometerSensor({ host: 'http://localhost:8080' })
+  .then(res => res.json())
+  .then((sensors) => {
+    ReactDOM.render(React.createElement(App, { sensors }), document.getElementById('root'));
+  });
