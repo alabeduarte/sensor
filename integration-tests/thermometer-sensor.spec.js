@@ -42,14 +42,14 @@ describe('thermometer-sensor', () => {
           .catch(done);
       });
 
-      it('returns all events', done => {
+      it('returns all events sorted from the newest to the oldest', done => {
         get(URL)
           .then(({ body, statusCode }) => {
             expect(statusCode).toEqual(OK);
             expect(body).toEqual(
               JSON.stringify([
                 {
-                  name: 'TEMPERATURE_HAS_CHANGED',
+                  name: 'TEMPERATURE_IN_RANGE_DETECTED',
                   data: {
                     uuid,
                     currentTemperature: 5,
@@ -57,7 +57,7 @@ describe('thermometer-sensor', () => {
                   }
                 },
                 {
-                  name: 'TEMPERATURE_IN_RANGE_DETECTED',
+                  name: 'TEMPERATURE_HAS_CHANGED',
                   data: {
                     uuid,
                     currentTemperature: 5,

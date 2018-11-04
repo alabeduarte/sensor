@@ -10,7 +10,8 @@ module.exports = function Server({ eventStore }) {
   server.use(cors());
 
   server.get('/', async (_, res) => {
-    res.status(OK).send(await eventStore.all());
+    const events = await eventStore.all();
+    res.status(OK).send(events.reverse());
   });
 
   server.post('/', async ({ body }, res) => {
