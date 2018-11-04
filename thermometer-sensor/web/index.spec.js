@@ -132,6 +132,51 @@ describe('Server', () => {
             done
           );
       });
+
+      it('returns all events sorted from the newest to the oldest', done => {
+        request(server)
+          .post('/')
+          .send({
+            uuid,
+            currentTemperature: 6,
+            idealTemperatureRange: {
+              min: 4,
+              max: 6
+            }
+          })
+          .expect(CREATED, () => {
+            request(server)
+              .get('/')
+              .expect(
+                OK,
+                [
+                  {
+                    name: 'TEMPERATURE_HAS_CHANGED',
+                    data: {
+                      uuid,
+                      currentTemperature: 6,
+                      idealTemperatureRange: {
+                        min: 4,
+                        max: 6
+                      }
+                    }
+                  },
+                  {
+                    name: 'TEMPERATURE_HAS_CHANGED',
+                    data: {
+                      uuid,
+                      currentTemperature: 5,
+                      idealTemperatureRange: {
+                        min: 4,
+                        max: 6
+                      }
+                    }
+                  }
+                ],
+                done
+              );
+          });
+      });
     });
   });
 });
