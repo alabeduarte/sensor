@@ -33,7 +33,8 @@ lint: $(web-client)/node_modules $(thermometer-sensor)/node_modules
 	docker-compose run --rm $(thermometer-sensor) yarn lint
 
 .PHONY: format
-format: $(thermometer-sensor)/node_modules $(integration-tests)/node_modules
+format: $(web-client)/node_modules $(thermometer-sensor)/node_modules $(integration-tests)/node_modules
+	docker-compose run --rm $(web-client) yarn format
 	docker-compose run --rm $(thermometer-sensor) yarn format
 	docker-compose run --rm $(integration-tests) yarn format
 
