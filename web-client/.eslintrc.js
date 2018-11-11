@@ -7,6 +7,8 @@ module.exports = {
     "jasmine": true
   },
   "rules": {
-  "complexity": ["error", 2]
+    "complexity": ["error", 2],
+    "no-unused-vars": ["error", { "args": "all", "argsIgnorePattern": "^_" }],
+    "indent": ["error", 2]
   }
 };
