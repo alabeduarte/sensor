@@ -8,6 +8,23 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+const ingestRandomData = async (sensors) => {
+  while(true) {
+    const randomSensor = sensors[Math.floor(Math.random() * sensors.length)];
+
+    const payload = {
+      uuid: randomSensor.uuid,
+      currentTemperature: getRandomInt(-6, 9),
+      idealTemperatureRange: randomSensor.idealTemperatureRange
+    };
+
+    await post(URL, { json: payload });
+    await sleep(1000);
+  }
+};
+
+let sensors = [];
+
 Array.from(Array(10)).forEach(async () => {
   const uuid = random.uuid();
 
@@ -20,6 +37,10 @@ Array.from(Array(10)).forEach(async () => {
     }
   };
 
+  sensors.push(payload);
+
   await post(URL, { json: payload });
   await sleep(1000);
 });
+
+ingestRandomData(sensors);

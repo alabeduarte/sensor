@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { random } from 'faker';
 import { SynchronousPromise } from 'synchronous-promise';
+import EventSource from 'eventsource';
 import App from './'
 
 function FakeHttpClient({ expectedData }) {
@@ -13,7 +14,12 @@ function FakeHttpClient({ expectedData }) {
 describe('<App />', () => {
   it('renders without crashing', () => {
     const httpClient = new FakeHttpClient({ expectedData: [] });
-    const wrapper = mount(<App httpClient={httpClient} />);
+    const wrapper = mount(
+      <App
+        httpClient={httpClient}
+        EventSource={EventSource}
+      />
+    );
 
     expect(wrapper.text()).toContain('Sensor App');
   });
@@ -42,8 +48,12 @@ describe('<App />', () => {
     };
 
     const httpClient = new FakeHttpClient({ expectedData: [sensor1, sensor2] });
-
-    const wrapper = mount(<App httpClient={httpClient} />);
+    const wrapper = mount(
+      <App
+        httpClient={httpClient}
+        EventSource={EventSource}
+      />
+    );
 
     expect(wrapper.find('.sensors li').length).toEqual(2);
   });

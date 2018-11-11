@@ -4,4 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import httpClient from './http-client';
 
-ReactDOM.render(React.createElement(App, { httpClient }), document.getElementById('root'));
+ReactDOM.render(
+  React.createElement(App, { httpClient, EventSource }),
+  document.getElementById('root')
+);
