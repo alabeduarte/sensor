@@ -6,5 +6,5 @@ import httpClient from './http-client';
 
 ReactDOM.render(
   React.createElement(App, { httpClient, EventSource }),
-  document.getElementById('root')
+  document.getElementById('root'),
 );
