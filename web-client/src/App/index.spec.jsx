@@ -4,18 +4,16 @@ import { random } from 'faker';
 import { SynchronousPromise } from 'synchronous-promise';
 import App from './'
 
-function FakeAPI({ expectedData }) {
-  return ({ host }) => {
-    return SynchronousPromise.resolve({
-      json: () => SynchronousPromise.resolve(expectedData)
-    });
-  };
+function FakeHttpClient({ expectedData }) {
+  return () => ({
+    get: () => SynchronousPromise.resolve(expectedData)
+  });
 };
 
 describe('<App />', () => {
   it('renders without crashing', () => {
-    const api = new FakeAPI({ expectedData: [] });
-    const wrapper = mount(<App api={api} />);
+    const httpClient = new FakeHttpClient({ expectedData: [] });
+    const wrapper = mount(<App httpClient={httpClient} />);
 
     expect(wrapper.text()).toContain('Sensor App');
   });
@@ -43,9 +41,9 @@ describe('<App />', () => {
       }
     };
 
-    const api = new FakeAPI({ expectedData: [sensor1, sensor2] });
+    const httpClient = new FakeHttpClient({ expectedData: [sensor1, sensor2] });
 
-    const wrapper = mount(<App api={api} />);
+    const wrapper = mount(<App httpClient={httpClient} />);
 
     expect(wrapper.find('.sensors li').length).toEqual(2);
   });

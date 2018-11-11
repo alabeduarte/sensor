@@ -10,8 +10,8 @@ export default class App extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.api({ host: 'http://localhost:8080' })
-      .then(res => res.json())
+    this.props.httpClient({ host: 'http://localhost:8080' })
+      .get('/thermometer-sensor')
       .then(sensors => this.setState({ sensors }));
   }
 
