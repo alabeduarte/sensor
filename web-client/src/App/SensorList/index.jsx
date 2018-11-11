@@ -9,8 +9,8 @@ const statuses = {
 
 export default ({ sensors }) => (
   <ul className="sensors">
-    {sensors.map(event => (
-      <li key={event.data.uuid} className={statuses[event.name]}>
+    {sensors.map((event, index) => (
+      <li key={index} className={statuses[event.name]}>
         <div className="sensor">
           <div className="uuid column-large">
             {event.data.uuid}
@@ -29,6 +29,6 @@ export default ({ sensors }) => (
           </div>
         </div>
       </li>
-))}
+    ))}
   </ul>
 );

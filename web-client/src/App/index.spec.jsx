@@ -1,17 +1,26 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { random } from 'faker';
+import { SynchronousPromise } from 'synchronous-promise';
 import App from './'
-import Sensors from './Sensors';
+
+function FakeAPI({ expectedData }) {
+  return ({ host }) => {
+    return SynchronousPromise.resolve({
+      json: () => SynchronousPromise.resolve(expectedData)
+    });
+  };
+};
 
 describe('<App />', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<App />);
+    const api = new FakeAPI({ expectedData: [] });
+    const wrapper = mount(<App api={api} />);
 
     expect(wrapper.text()).toContain('Sensor App');
   });
 
-  it('renders sensor statuses', () => {
+  it('loads sensor statuses', () => {
     const sensor1 = {
       data: {
         uuid: random.uuid(),
@@ -34,7 +43,9 @@ describe('<App />', () => {
       }
     };
 
-    const wrapper = mount(<App sensors={[sensor1, sensor2]} />);
+    const api = new FakeAPI({ expectedData: [sensor1, sensor2] });
+
+    const wrapper = mount(<App api={api} />);
 
     expect(wrapper.find('.sensors li').length).toEqual(2);
   });
