@@ -2,12 +2,17 @@ const { random } = require('faker');
 const ThermometerSensor = require('./index');
 const EventStore = require('../event-store');
 
-function StubbedTemperatureRangeDetector() {
+function FakeTemperatureRangeDetector() {
   return { detectTemperatureInRange: () => true };
 }
 
-function StubbedTransport() {
-  return { send: () => true };
+function FakeTransport() {
+  const publishedMessages = [];
+
+  return {
+    send: message => publishedMessages.push(message),
+    publishedMessages
+  };
 }
 
 describe('ThermometerSensor', () => {
@@ -15,8 +20,8 @@ describe('ThermometerSensor', () => {
 
   beforeEach(() => {
     eventStore = new EventStore({});
-    temperatureRangeDetector = new StubbedTemperatureRangeDetector();
-    transport = new StubbedTransport();
+    temperatureRangeDetector = new FakeTemperatureRangeDetector();
+    transport = new FakeTransport();
 
     uuid = random.uuid();
   });
@@ -55,22 +60,24 @@ describe('ThermometerSensor', () => {
   });
 
   it('dispatches notification when temperature is out of range', async () => {
-    spyOn(transport, 'send');
-
-    const data = {
-      uuid,
-      currentTemperature: 3,
-      idealTemperatureRange: {
-        min: 4,
-        max: 6
-      }
-    };
-
     await new ThermometerSensor({ eventStore, transport });
-    const event = await eventStore.store('TEMPERATURE_OUT_OF_RANGE_DETECTED', {
-      data
+    await eventStore.store('TEMPERATURE_OUT_OF_RANGE_DETECTED', {
+      data: {
+        uuid,
+        currentTemperature: 3,
+        idealTemperatureRange: { min: 4, max: 6 }
+      }
     });
 
-    expect(transport.send).toHaveBeenCalledWith(event);
+    expect(transport.publishedMessages).toEqual([
+      {
+        data: {
+          uuid,
+          currentTemperature: 3,
+          idealTemperatureRange: { max: 6, min: 4 },
+        },
+        name: 'TEMPERATURE_OUT_OF_RANGE_DETECTED'
+      }
+    ]);
   });
 });
