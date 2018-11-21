@@ -19,7 +19,7 @@ describe('sensor', () => {
 
   afterEach(subscription.unsubscribeAll);
 
-  it('receives realtime data when temperature is out of range', done => {
+  it('receives realtime data when temperature changes', done => {
     const uuid = random.uuid();
 
     const message = {
@@ -31,20 +31,31 @@ describe('sensor', () => {
       }
     };
 
+    const expectedEvents = [
+      JSON.stringify({
+        name: 'TEMPERATURE_CHANGED',
+        data: message
+      }),
+      JSON.stringify({
+        name: 'TEMPERATURE_OUT_OF_RANGE_DETECTED',
+        data: message
+      })
+    ];
+
+    const receivedEvents = [];
+
     connection.onmessage = ({ data }) => {
-      expect(data).toEqual(
-        JSON.stringify({
-          name: 'TEMPERATURE_OUT_OF_RANGE_DETECTED',
-          data: message
-        })
-      );
-      done();
+      receivedEvents.push(data);
+
+      if (receivedEvents.length === expectedEvents.length) {
+        expect(receivedEvents).toEqual(expectedEvents);
+
+        done();
+      }
     };
 
-    post(sensorUrl, { json: message })
-      .then(({ statusCode }) => {
-        expect(statusCode).toEqual(CREATED);
-      })
-      .catch(done);
+    post(sensorUrl, { json: message }).then(({ statusCode }) => {
+      expect(statusCode).toEqual(CREATED);
+    }).catch(done);
   });
 });

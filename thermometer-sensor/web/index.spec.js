@@ -33,7 +33,7 @@ describe('Server', () => {
         .expect(CREATED, () => {
           expect(eventStore.all()).toEqual([
             {
-              name: 'TEMPERATURE_HAS_CHANGED',
+              name: 'TEMPERATURE_CHANGED',
               data: {
                 uuid,
                 currentTemperature: 5,
@@ -118,7 +118,7 @@ describe('Server', () => {
             OK,
             [
               {
-                name: 'TEMPERATURE_HAS_CHANGED',
+                name: 'TEMPERATURE_CHANGED',
                 data: {
                   uuid,
                   currentTemperature: 5,
@@ -151,7 +151,7 @@ describe('Server', () => {
                 OK,
                 [
                   {
-                    name: 'TEMPERATURE_HAS_CHANGED',
+                    name: 'TEMPERATURE_CHANGED',
                     data: {
                       uuid,
                       currentTemperature: 6,
@@ -162,7 +162,7 @@ describe('Server', () => {
                     }
                   },
                   {
-                    name: 'TEMPERATURE_HAS_CHANGED',
+                    name: 'TEMPERATURE_CHANGED',
                     data: {
                       uuid,
                       currentTemperature: 5,

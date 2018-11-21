@@ -7,7 +7,7 @@ describe('<Sensors />', () => {
   it('renders sensor data', () => {
     const uuid = random.uuid();
     const temperatureHasChanged = {
-      name: 'TEMPERATURE_HAS_CHANGED',
+      name: 'TEMPERATURE_CHANGED',
       data: {
         uuid,
         currentTemperature: 4,
@@ -23,7 +23,7 @@ describe('<Sensors />', () => {
 
     expect(items.at(0).find('.uuid').text()).toEqual(uuid)
     expect(items.at(0).find('.event-name').text())
-      .toEqual('TEMPERATURE_HAS_CHANGED');
+      .toEqual('TEMPERATURE_CHANGED');
     expect(items.at(0).find('.current-temperature').text()).toContain('4ºC');
     expect(items.at(0).find('.min-temperature').text()).toContain('min 0ºC');
     expect(items.at(0).find('.max-temperature').text()).toContain('max 7ºC');
@@ -32,7 +32,7 @@ describe('<Sensors />', () => {
   it('indicates when temperature has changed', () => {
     const uuid = random.uuid();
     const temperatureHasChanged = {
-      name: 'TEMPERATURE_HAS_CHANGED',
+      name: 'TEMPERATURE_CHANGED',
       data: {
         uuid,
         currentTemperature: 4,

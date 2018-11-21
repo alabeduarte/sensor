@@ -57,7 +57,7 @@ describe('thermometer-sensor', () => {
                   }
                 },
                 {
-                  name: 'TEMPERATURE_HAS_CHANGED',
+                  name: 'TEMPERATURE_CHANGED',
                   data: {
                     uuid,
                     currentTemperature: 5,

@@ -40,7 +40,7 @@ test: $(web-client)/node_modules $(thermometer-sensor)/node_modules lint
 	docker-compose run --rm $(thermometer-sensor) yarn test
 
 .PHONY: test.integration
-test.integration: $(thermometer-sensor)/node_modules $(integration-tests)/node_modules lint
+test.integration: lint $(integration-tests)/node_modules
 	docker-compose run --rm $(integration-tests) yarn test
 
 .PHONY: test.web-client.watch
@@ -52,5 +52,5 @@ test.thermometer-sensor.watch: $(thermometer-sensor)/node_modules
 	docker-compose run --rm $(thermometer-sensor) yarn test:watch
 
 .PHONY: test.integration.watch
-test.integration.watch: $(thermometer-sensor)/node_modules $(integration-tests)/node_modules lint
+test.integration.watch: lint $(integration-tests)/node_modules
 	docker-compose run --rm $(integration-tests) yarn test:watch

@@ -3,14 +3,19 @@ const ThermometerSensor = require('./index');
 const EventStore = require('../event-store');
 
 function FakeTemperatureRangeDetector() {
-  return { detectTemperatureInRange: () => true };
+  const temperaturesDetected = [];
+
+  return {
+    detectTemperatureInRange: data => temperaturesDetected.push(data),
+    temperaturesDetected
+  };
 }
 
 function FakeTransport() {
   const publishedMessages = [];
 
   return {
-    send: message => publishedMessages.push(message),
+    send: async message => publishedMessages.push(message),
     publishedMessages
   };
 }
@@ -27,45 +32,43 @@ describe('ThermometerSensor', () => {
   });
 
   it('triggers temperature range detected when it changes', async () => {
-    spyOn(temperatureRangeDetector, 'detectTemperatureInRange');
-
-    const data = {
-      uuid,
-      currentTemperature: 4,
-      idealTemperatureRange: {
-        min: 3,
-        max: 5
-      }
-    };
-
     await new ThermometerSensor({
       eventStore,
       transport,
       temperatureRangeDetector
     });
-    await eventStore.store('TEMPERATURE_HAS_CHANGED', { data });
 
-    expect(
-      temperatureRangeDetector.detectTemperatureInRange
-    ).toHaveBeenCalledWith({
-      refrigerationNeeds: {
-        uuid,
-        currentTemperature: 4,
-        idealTemperatureRange: {
-          min: 3,
-          max: 5
-        }
-      }
-    });
-  });
-
-  it('dispatches notification when temperature is out of range', async () => {
-    await new ThermometerSensor({ eventStore, transport });
-    await eventStore.store('TEMPERATURE_OUT_OF_RANGE_DETECTED', {
+    await eventStore.store('TEMPERATURE_CHANGED', {
       data: {
         uuid,
-        currentTemperature: 3,
-        idealTemperatureRange: { min: 4, max: 6 }
+        currentTemperature: 4,
+        idealTemperatureRange: { min: 3, max: 5 }
+      }
+    });
+
+    expect(temperatureRangeDetector.temperaturesDetected).toEqual([
+      {
+        refrigerationNeeds: {
+          uuid,
+          currentTemperature: 4,
+          idealTemperatureRange: { min: 3, max: 5 }
+        }
+      }
+    ]);
+  });
+
+  it('dispatches notification when temperature changes', async () => {
+    await new ThermometerSensor({
+      eventStore,
+      transport,
+      temperatureRangeDetector
+    });
+
+    await eventStore.store('TEMPERATURE_CHANGED', {
+      data: {
+        uuid,
+        currentTemperature: 4,
+        idealTemperatureRange: { min: 3, max: 5 }
       }
     });
 
@@ -73,8 +76,62 @@ describe('ThermometerSensor', () => {
       {
         data: {
           uuid,
-          currentTemperature: 3,
-          idealTemperatureRange: { max: 6, min: 4 },
+          currentTemperature: 4,
+          idealTemperatureRange: { min: 3, max: 5 }
+        },
+        name: 'TEMPERATURE_CHANGED'
+      }
+    ]);
+  });
+
+  it('dispatches notification when temperature change detection is within range', async () => {
+    await new ThermometerSensor({
+      eventStore,
+      transport,
+      temperatureRangeDetector
+    });
+
+    await eventStore.store('TEMPERATURE_IN_RANGE_DETECTED', {
+      data: {
+        uuid,
+        currentTemperature: 4,
+        idealTemperatureRange: { min: 3, max: 5 }
+      }
+    });
+
+    expect(transport.publishedMessages).toEqual([
+      {
+        data: {
+          uuid,
+          currentTemperature: 4,
+          idealTemperatureRange: { min: 3, max: 5 }
+        },
+        name: 'TEMPERATURE_IN_RANGE_DETECTED'
+      }
+    ]);
+  });
+
+  it('dispatches notification when temperature change detection is out of range', async () => {
+    await new ThermometerSensor({
+      eventStore,
+      transport,
+      temperatureRangeDetector
+    });
+
+    await eventStore.store('TEMPERATURE_OUT_OF_RANGE_DETECTED', {
+      data: {
+        uuid,
+        currentTemperature: 2,
+        idealTemperatureRange: { min: 3, max: 5 }
+      }
+    });
+
+    expect(transport.publishedMessages).toEqual([
+      {
+        data: {
+          uuid,
+          currentTemperature: 2,
+          idealTemperatureRange: { min: 3, max: 5 }
         },
         name: 'TEMPERATURE_OUT_OF_RANGE_DETECTED'
       }
