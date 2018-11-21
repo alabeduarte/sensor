@@ -23,10 +23,6 @@ $(integration-tests)/node_modules: $(integration-tests)/package.json
 dev: $(web-client)/node_modules $(thermometer-sensor)/node_modules $(data-ingestion)/node_modules
 	docker-compose up --build
 
-.PHONY: send.data
-send.data: $(thermometer-sensor)/node_modules $(data-ingestion)/node_modules lint
-	docker-compose run --rm $(data-ingestion) yarn start
-
 .PHONY: lint
 lint: $(web-client)/node_modules $(thermometer-sensor)/node_modules
 	docker-compose run --rm $(web-client) yarn lint
