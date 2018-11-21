@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 
 const statuses = {
-  'TEMPERATURE_HAS_CHANGED': 'info',
+  'TEMPERATURE_CHANGED': 'info',
   'TEMPERATURE_IN_RANGE_DETECTED': 'info',
   'TEMPERATURE_OUT_OF_RANGE_DETECTED': 'warning'
 };

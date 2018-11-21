@@ -12,7 +12,7 @@ const checkMissingData = data => {
 module.exports = ({ eventStore }) => ({ data }) => {
   const result = checkMissingData(data);
   return result.fold(result.Failure, async () => {
-    await eventStore.store('TEMPERATURE_HAS_CHANGED', { data });
+    await eventStore.store('TEMPERATURE_CHANGED', { data });
     return new result.Success(data);
   });
 };

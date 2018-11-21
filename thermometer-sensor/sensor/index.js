@@ -1,15 +1,23 @@
+const expectedEvents = [
+  'TEMPERATURE_CHANGED',
+  'TEMPERATURE_IN_RANGE_DETECTED',
+  'TEMPERATURE_OUT_OF_RANGE_DETECTED'
+];
+
 module.exports = function ThermometerSensor({
   eventStore,
   transport,
   temperatureRangeDetector
 }) {
-  eventStore.subscribe('TEMPERATURE_HAS_CHANGED', async ({ data }) => {
+  eventStore.subscribe('TEMPERATURE_CHANGED', async ({ data }) => {
     await temperatureRangeDetector.detectTemperatureInRange({
       refrigerationNeeds: data
     });
   });
 
-  eventStore.subscribe('TEMPERATURE_OUT_OF_RANGE_DETECTED', async event => {
-    await transport.send(event);
+  expectedEvents.forEach(eventName => {
+    eventStore.subscribe(eventName, async event => {
+      await transport.send(event);
+    });
   });
 };
