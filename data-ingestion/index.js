@@ -9,7 +9,8 @@ function getRandomInt(min, max) {
 }
 
 const ingestRandomData = async (sensors) => {
-  while(true) {
+  let count = 0;
+  while(count < 100) {
     const randomSensor = sensors[Math.floor(Math.random() * sensors.length)];
 
     const payload = {
@@ -20,12 +21,13 @@ const ingestRandomData = async (sensors) => {
 
     await post(URL, { json: payload });
     await sleep(1000);
+    count++;
   }
 };
 
 let sensors = [];
 
-Array.from(Array(10)).forEach(async () => {
+Array.from(Array(4)).forEach(async () => {
   const uuid = random.uuid();
 
   const payload = {
