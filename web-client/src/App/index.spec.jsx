@@ -1,9 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { random } from 'faker';
+import { shallow } from 'enzyme';
 import { SynchronousPromise } from 'synchronous-promise';
 import EventSource from 'eventsource';
 import App from './'
+import SensorChart from './SensorChart';
 
 function FakeHttpClient({ expectedData }) {
   return () => ({
@@ -14,7 +14,7 @@ function FakeHttpClient({ expectedData }) {
 describe('<App />', () => {
   it('renders without crashing', () => {
     const httpClient = new FakeHttpClient({ expectedData: [] });
-    const wrapper = mount(
+    const wrapper = shallow(
       <App
         httpClient={httpClient}
         EventSource={EventSource}
@@ -25,9 +25,9 @@ describe('<App />', () => {
   });
 
   it('loads sensor statuses', () => {
-    const sensor1 = {
+    const sensor = {
       data: {
-        uuid: random.uuid(),
+        uuid: 'UUID-123',
         currentTemperature: 4,
         idealTemperatureRange: {
           min: 0,
@@ -36,25 +36,15 @@ describe('<App />', () => {
       }
     };
 
-    const sensor2 = {
-      data: {
-        uuid: random.uuid(),
-        currentTemperature: 2,
-        idealTemperatureRange: {
-          min: 0,
-          max: 7
-        }
-      }
-    };
-
-    const httpClient = new FakeHttpClient({ expectedData: [sensor1, sensor2] });
-    const wrapper = mount(
+    const httpClient = new FakeHttpClient({ expectedData: [sensor] });
+    const wrapper = shallow(
       <App
         httpClient={httpClient}
         EventSource={EventSource}
       />
     );
 
-    expect(wrapper.find('.sensors li').length).toEqual(2);
+    expect(wrapper.find(SensorChart).exists()).toBeTruthy();
+    expect(wrapper.find(SensorChart).prop('sensors')).toEqual([sensor]);
   });
 });
