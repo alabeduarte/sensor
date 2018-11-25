@@ -30,7 +30,7 @@ $ make dev
 
 Then, try this address on your browser: http://localhost:3000
 
-![alt screenshot](https://user-images.githubusercontent.com/418269/47964322-73582580-e08c-11e8-8226-34f14d159e81.png)
+![alt screenshot](https://user-images.githubusercontent.com/418269/48978959-20f8aa80-f108-11e8-95ae-360544adb1bb.png)
 
 ### Data Ingestion
 
