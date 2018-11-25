@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import SensorList from './SensorList';
+import SensorChart from './SensorChart';
 
 const THERMOMETER_SENSOR_URL = 'http://localhost:8080';
 const NOTIFICATION_URL = 'http://localhost:9090/sub/sensor';
@@ -23,7 +24,9 @@ export default class App extends PureComponent {
   componentDidMount() {
     this.props.httpClient({ host: 'http://localhost:8080' })
       .get('/thermometer-sensor')
-      .then(sensors => this.setState({ sensors }));
+      .then(sensors => {
+        this.setState({ sensors });
+      });
 
     const notification = new this.props.EventSource(NOTIFICATION_URL);
     notification.addEventListener('message', this.handleChange);
@@ -33,7 +36,7 @@ export default class App extends PureComponent {
     return (
       <div className="main">
         <h1>Sensor App</h1>
-        <SensorList sensors={this.state.sensors} />
+        <SensorChart sensors={this.state.sensors} />
       </div>
     );
   }
