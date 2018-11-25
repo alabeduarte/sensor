@@ -54,8 +54,10 @@ describe('sensor', () => {
       }
     };
 
-    post(sensorUrl, { json: message }).then(({ statusCode }) => {
-      expect(statusCode).toEqual(CREATED);
-    }).catch(done);
+    post(sensorUrl, { json: message })
+      .then(({ statusCode }) => {
+        expect(statusCode).toEqual(CREATED);
+      })
+      .catch(done);
   });
 });
