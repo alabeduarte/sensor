@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import SensorList from './SensorList';
 import SensorChart from './SensorChart';
 
 const THERMOMETER_SENSOR_URL = 'http://localhost:8080';
