@@ -14,10 +14,12 @@ $ make dev
 $ make lint
 $ make format
 $ make test
-$ make test.thermometer-sensor.watch
 $ make test.integration
+
+# test watchers
+$ make test.web-client.watch
+$ make test.thermometer-sensor.watch
 $ make test.integration.watch
-$ make send.data
 ```
 
 ### Running locally:
@@ -44,7 +46,4 @@ Ingest random data to simulate different temperature ranges:
     -d '{"uuid": "c2997731-db64-4e37-ad1b-8537c07f31c2", "currentTemperature": 15, "idealTemperatureRange": { "min": -5, "max": 8 }}' \
     http://localhost:8080/thermometer-sensor
   ```
-3. At the moment, new entries only will be shown if the current temperature is
-   outside of the configured range. Please note that the endpoint must contain
-   all data regarding the sensor, even though they might sound duplicate (e.g.
-   `idealTemperatureRange`).
+_Please note that the endpoint must contain all data regarding the sensor, even though they might sound duplicate (e.g.  `idealTemperatureRange`)._
