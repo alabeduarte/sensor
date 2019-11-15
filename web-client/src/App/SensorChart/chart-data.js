@@ -1,4 +1,4 @@
-const chartData = sensors => Object.entries(sensors).map(([key, value]) => ({
+const chartData = (sensors) => Object.entries(sensors).map(([key, value]) => ({
   name: key,
   data: value.reduce(
     (curr, acc, currentIndex) => ({

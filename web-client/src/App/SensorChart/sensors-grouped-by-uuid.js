@@ -1,4 +1,4 @@
-const sensorsGroupedByUUID = sensors => sensors
+const sensorsGroupedByUUID = (sensors) => sensors
   .map(({ data }) => ({
     uuid: data.uuid,
     currentTemperature: data.currentTemperature,
