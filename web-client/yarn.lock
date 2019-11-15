@@ -2051,10 +2051,10 @@ chartjs-color@^2.1.0:
     chartjs-color-string "^0.5.0"
     color-convert "^0.5.3"
 
-chartkick@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/chartkick/-/chartkick-3.0.1.tgz#f325041bfc15f5d18074d4803549efc3751ccd81"
-  integrity sha512-u9kOAq69BhIl7KZsU3+athnZUdXhivCQeYMoXWTRGZB6Rf17oaBO0LboK+s+yXJ12Uvw6Ua8ryf7Md7dOjpoaQ==
+chartkick@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/chartkick/-/chartkick-3.2.0.tgz#5296bbadfa6fbb93d3ab0f9c8e5d27649860e806"
+  integrity sha512-EkscIyDBdtUJVIuA2kIIjMq+YkNf4jDWr1fYjDUMZ9IakIJFoJ+9Hl+PW/POutElu8iYbebCEHWsrsXu09o4hw==
 
 check-error@^1.0.2:
   version "1.0.2"
@@ -7334,12 +7334,12 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-chartkick@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/react-chartkick/-/react-chartkick-0.3.0.tgz#692461eb808e18e7a2860129247476d55295e677"
-  integrity sha512-ZA0X8XUCPhEN/xbsLR+Xrs3hGpHCBscZZR7uwVCNDQWiEceKkTNY9W2ET8sx1beY2x0ixvNtBoc31InGfFIdQg==
+react-chartkick@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-chartkick/-/react-chartkick-0.4.0.tgz#1de94397a44df65ccd52668eadc0ddafc7c436b8"
+  integrity sha512-X3TDaO/UfPfanxuZuraPVPYdTSNaDVrjn6lucrFES8DxtdYvcDT2svTtaKzuGyhIXVl1s1LEyDS5x5Xo1XMQJg==
   dependencies:
-    chartkick "^3.0.0"
+    chartkick "^3.2.0"
 
 react-dom@^16.12.0:
   version "16.12.0"
