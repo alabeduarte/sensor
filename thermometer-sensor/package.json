@@ -18,7 +18,7 @@
     "http-status-codes": "^1.4.0",
     "redis": "^2.8.0",
     "request": "^2.83.0",
-    "winston": "^2.4.0"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
