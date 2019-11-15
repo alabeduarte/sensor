@@ -12,9 +12,9 @@
     "then-sleep": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^4.15.0",
-    "eslint-plugin-jest": "^21.5.0",
+    "eslint": "^6.6.0",
+    "eslint-plugin-jest": "^23.0.4",
     "faker": "^4.1.0",
-    "prettier-eslint-cli": "^4.7.0"
+    "prettier-eslint-cli": "^5.0.0"
   }
 }
