@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "folktale": "^2.3.2",
     "http-status-codes": "^1.4.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "request": "^2.83.0",
     "winston": "^3.2.1"
   },
