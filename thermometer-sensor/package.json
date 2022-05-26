@@ -23,7 +23,7 @@
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-plugin-jest": "^23.0.4",
-    "eventsource": "^1.0.5",
+    "eventsource": "^2.0.2",
     "faker": "^4.1.0",
     "jest": "^24.9.0",
     "prettier-eslint-cli": "^5.0.0",
